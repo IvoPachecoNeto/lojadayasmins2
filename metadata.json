@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Leke\u0027store Minimalist Fashion Store",
+  "description": "A professional full-stack e-commerce platform featuring sophisticated editorial design and seamless shopping for contemporary women\u0027s fashion.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
