@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lekestore",
+  "pages_build_output_dir": "dist",
+  "compatibility_date": "2024-01-01",
+  "vars": {
+    "VITE_FIREBASE_PROJECT_ID": "",
+    "VITE_FIREBASE_API_KEY": "",
+    "MELHOR_ENVIO_SENDER_CEP": "01001-000"
+  }
+}

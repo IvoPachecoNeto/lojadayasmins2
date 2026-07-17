@@ -18,7 +18,10 @@ async function apiFetch(endpoint: string, options?: RequestInit) {
       }
     }
 
-    const response = await fetch(endpoint, {
+    const apiBaseUrl = (import.meta as any).env?.VITE_API_BASE_URL || '';
+    const url = endpoint.startsWith('http') ? endpoint : `${apiBaseUrl}${endpoint}`;
+
+    const response = await fetch(url, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
@@ -28,6 +31,7 @@ async function apiFetch(endpoint: string, options?: RequestInit) {
     });
 
     if (!response.ok) {
+      console.error(`API Request Failed: URL=[${url}] Status=[${response.status}]`);
       const errData = await response.json().catch(() => ({ error: 'Erro desconhecido' }));
       throw new Error(errData.error || `HTTP error! status: ${response.status}`);
     }

@@ -214,9 +214,37 @@ export const StoreProvider = ({ children }: { children: ReactNode }) => {
       setCollections(cols);
       setSettings(setts);
       setBanners(bans);
+
+      // Save to localStorage cache as contingency
+      const cacheData = {
+        products: prods,
+        categories: cats,
+        collections: cols,
+        settings: setts,
+        banners: bans,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('lk_catalog_cache', JSON.stringify(cacheData));
     } catch (error) {
-      console.error('Failed to fetch store configurations:', error);
-      showToast('Erro ao carregar os dados da loja. Usando cache local.', 'error');
+      console.error('Failed to fetch store configurations from server:', error);
+      
+      // Try to load from previously saved real catalog cache
+      const cached = localStorage.getItem('lk_catalog_cache');
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          setProducts(parsed.products || []);
+          setCategories(parsed.categories || []);
+          setCollections(parsed.collections || []);
+          setSettings(parsed.settings || null);
+          setBanners(parsed.banners || []);
+          showToast('Erro de conexão. Carregando dados do cache local.', 'error');
+        } catch (e) {
+          showToast('Erro ao carregar os dados da loja. Verifique sua conexão.', 'error');
+        }
+      } else {
+        showToast('Erro ao carregar os dados da loja. Verifique sua conexão.', 'error');
+      }
     } finally {
       setLoadingCatalog(false);
     }
